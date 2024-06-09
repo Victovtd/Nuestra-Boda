@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Victor y Veronica</title>
+  <style>
+    body {
+      font-family: 'Georgia', serif;
+      font-size: 16px;
+      color: #333;
+      background-color: #f8f8f8;
+      margin: 0;
+      padding: 0;
+    }
+
+    .container {
+      width: 80%;
+      max-width: 700px;
+      margin: 40px auto;
+      background-color: #ffffff;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+      border-radius: 10px;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .header {
+      background-color: #8e44ad;
+      color: #ffffff;
+      padding: 30px 20px;
+      text-align: center;
+    }
+
+    .header h1 {
+      margin: 0;
+    }
+
+    .body {
+      padding: 30px 20px;
+      line-height: 1.6;
+    }
+
+    .body p {
+      margin: 20px 0;
+    }
+
+    .counter {
+      font-size: 1.5em;
+      font-weight: bold;
+      text-align: center;
+      margin: 20px 0;
+      background-color: #f8e6ff;
+      padding: 20px;
+      border-radius: 10px;
+      color: #8e44ad;
+    }
+
+    .button {
+      background-color: #3498db;
+      color: white;
+      padding: 15px 30px;
+      text-align: center;
+      text-decoration: none;
+      display: inline-block;
+      border-radius: 5px;
+      margin-top: 20px;
+    }
+
+    .button:hover {
+      background-color: #2980b9;
+    }
+
+    .form-container {
+      text-align: center;
+      margin-top: 20px;
+    }
+
+    .form-container input, .form-container select, .form-container button {
+      width: 80%;
+      max-width: 300px;
+      padding: 10px;
+      margin: 10px 0;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      font-size: 16px;
+    }
+
+    .form-container button {
+      background-color: #3498db;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+
+    .form-container button:hover {
+      background-color: #2980b9;
+    }
+
+    .form-container .message {
+      font-size: 1.2em;
+      margin-top: 20px;
+      color: green;
+    }
+
+    .wedd {
+      width: 100px;
+      height: auto;
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h1>Invitación de Boda</h1>
+      <img src="ola.png" alt="wedding" class="wedd">
+    </div>
+    <div class="body">
+      <p>A quien corresponda,</p>
+
+      <p>Tenemos el placer de invitarle a nuestra boda, que tendrá lugar el <strong>3 de agosto</strong> a las <strong>6 p.m.</strong> en <strong>Calle Águilas Lote, MZ, San Pedro, 56334 Chimalhuacan, Edo Méx.</strong></p>
+
+      <p>Rogamos confirme su asistencia antes del 5 de agosto.</p>
+
+      <div class="counter" id="counter"></div>
+
+      <p>Esperamos contar con su presencia en este día tan especial para nosotros.</p>
+
+      <p>Atentamente,</p>
+      <p><strong>Victor Manuel Tovar De Sn. Pedro</strong></p>
+      <p><strong>Ana Veronica Cortes Tosqui</strong></p>
+    </div>
+
+    <div class="form-container">
+      <form id="rsvpForm">
+        <input type="text" id="name" name="name" placeholder="Nombre" required>
+        <select id="guests" name="guests" required>
+          <option value="">Número de personas</option>
+          <option value="1">1</option>
+          <option value="2">2</option>
+          <option value="3">3</option>
+          <option value="4">4</option>
+          <option value="5">5</option>
+        </select>
+        <button type="submit" class="button">Confirmar asistencia</button>
+        <p id="confirmationMessage" class="message" style="display:none;">¡Gracias por confirmar tu asistencia!</p>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    // Fecha de la boda
+    var weddingDate = new Date("August 3, 2024 00:00:00").getTime();
+
+    // Actualizar el contador cada segundo
+    var countdownFunction = setInterval(function() {
+      // Obtener la fecha y hora actuales
+      var now = new Date().getTime();
+      
+      // Calcular la diferencia entre la fecha actual y la fecha de la boda
+      var distance = weddingDate - now;
+      
+      // Calcular días, horas, minutos y segundos
+      var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+      var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+      var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+      
+      // Mostrar el resultado en el elemento con id="counter"
+      document.getElementById("counter").innerHTML = "Faltan " + days + " días, " + hours + " horas, "
+      + minutes + " minutos y " + seconds + " segundos para nuestra boda.";
+      
+      // Si la cuenta atrás ha terminado, mostrar un mensaje
+      if (distance < 0) {
+        clearInterval(countdownFunction);
+        document.getElementById("counter").innerHTML = "¡Hoy es el día de nuestra boda!";
+      }
+    }, 1000);
+
+    // Manejar el formulario de confirmación
+    document.getElementById('rsvpForm').addEventListener('submit', function(event) {
+      event.preventDefault();
+      
+      var name = document.getElementById('name').value;
+      var guests = document.getElementById('guests').value;
+      
+      if (name && guests) {
+        // Aquí puedes enviar los datos a tu servidor o guardarlos como prefieras
+        console.log('Nombre:', name);
+        console.log('Número de personas:', guests);
+        
+        document.getElementById('rsvpForm').reset();
+        document.getElementById('confirmationMessage').style.display = 'block';
+      }
+    });
+  </script>
+</body>
+</html>
